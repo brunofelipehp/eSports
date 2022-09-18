@@ -18,7 +18,7 @@ model Ad {
   id              String   @id @default(uuid())
   gameId          String
   name            String
-  yearsPlaying    String
+  yearsPlaying    Int
   discord         String
   weekDays        String
   hourStrt        Int
