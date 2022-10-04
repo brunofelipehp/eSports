@@ -10,9 +10,9 @@ import { styles } from './styles';
 
 export function Home() {
   useEffect(() => {
-    fetch("http:// 127.0.0.1/8:3333/games")
+    fetch("http://172.27.86.110:3333/games")
     .then(response => response.json())
-   //.then(data => console.log(data))
+   .then(data => console.log(data))
     .catch(err => console.log(err))
   }, [])
   return (
