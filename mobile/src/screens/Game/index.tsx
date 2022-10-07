@@ -1,4 +1,5 @@
-import { Image, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
@@ -12,12 +13,13 @@ import { styles } from './styles';
 
 import { Background } from '../../Components/Background';
 import { Heading } from '../../Components/Heading';
-import { DuoCard } from '../../Components/DuoCard';
+import { DuoCard, DuoCardProps } from '../../Components/DuoCard';
 
 
 
 
 export function Game() {
+  const [duos, setDuos] = useState<DuoCardProps[]>([]);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -26,6 +28,13 @@ export function Game() {
   function handleGoBack() {
     navigation.goBack();
   }
+
+   useEffect(() => {
+    fetch(`http://192.168.100.156:3333/games/${game.id}/ads`)
+      .then(response => response.json())
+      .then(data => setDuos(data))
+      .catch(err => console.log(err))
+  }, [])
   
   return (
     <Background> 
@@ -58,7 +67,25 @@ export function Game() {
       subtitle="Conecte-se e comece a jogar!"
        />
 
-       <DuoCard />
+      <FlatList
+      data={duos}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => (
+        <DuoCard 
+        data={item}
+        onConnect={() => {}}
+        />
+      )}
+      horizontal
+      style={styles.containerList} 
+      contentContainerStyle={[duos.length > 0 ? styles.contentList : styles.emptyListContent]}
+      showsHorizontalScrollIndicator={false}
+      ListEmptyComponent={() => (
+        <Text style={styles.emptyListText}>
+        Não há anúncios publicados ainda.
+        </Text>
+      )}
+      />
 
     </SafeAreaView>
     </Background>
