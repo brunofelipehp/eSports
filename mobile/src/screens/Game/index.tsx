@@ -14,12 +14,11 @@ import { styles } from './styles';
 import { Background } from '../../Components/Background';
 import { Heading } from '../../Components/Heading';
 import { DuoCard, DuoCardProps } from '../../Components/DuoCard';
-
-
-
+import { DuoMatch } from '../../Components/DuoMatch';
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
+  const [discordDouSelected, setDiscordDuoSelected] = useState('brunohp');
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -85,6 +84,12 @@ export function Game() {
         Não há anúncios publicados ainda.
         </Text>
       )}
+      />
+
+      <DuoMatch 
+      visible={discordDouSelected.length > 0}
+      discord="Bruno@8080"
+      onClose={() => setDiscordDuoSelected('')}
       />
 
     </SafeAreaView>
